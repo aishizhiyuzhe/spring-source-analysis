@@ -114,6 +114,7 @@ public class DefaultResourceLoader implements ResourceLoader {
 	/**
 	 * Return the collection of currently registered protocol resolvers,
 	 * allowing for introspection as well as modification.
+	 * 注册协议的解析器
 	 * @since 4.3
 	 * @see #addProtocolResolver(ProtocolResolver)
 	 */
@@ -152,10 +153,12 @@ public class DefaultResourceLoader implements ResourceLoader {
 				return resource;
 			}
 		}
-
+		//通过不同路径来判断确定使用什么加载
 		if (location.startsWith("/")) {
+			//这一步就可以通过继承这个方法来实现自定义的加载
 			return getResourceByPath(location);
 		}
+		//开头为classpath:类
 		else if (location.startsWith(CLASSPATH_URL_PREFIX)) {
 			return new ClassPathResource(location.substring(CLASSPATH_URL_PREFIX.length()), getClassLoader());
 		}

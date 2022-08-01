@@ -78,10 +78,13 @@ public class ClassPathXmlApplicationContext extends AbstractXmlApplicationContex
 	/**
 	 * Create a new ClassPathXmlApplicationContext, loading the definitions
 	 * from the given XML file and automatically refreshing the context.
+	 *
+	 * 创建一个ClassPathXmlApplicationContext对象，并将配置文件加载到容器中。
 	 * @param configLocation resource location
 	 * @throws BeansException if context creation failed
 	 */
 	public ClassPathXmlApplicationContext(String configLocation) throws BeansException {
+		//默认刷星上下文。
 		this(new String[] {configLocation}, true, null);
 	}
 
@@ -137,10 +140,17 @@ public class ClassPathXmlApplicationContext extends AbstractXmlApplicationContex
 	public ClassPathXmlApplicationContext(
 			String[] configLocations, boolean refresh, @Nullable ApplicationContext parent)
 			throws BeansException {
+		/*
+		* 调用父类的构造器，个人理解有几点好处，
+		* 1.由父类去设计大体的创建方法，如果有什么变通的可以通过重写父类的方法来进行自定义的调整。
+		* 2.如果不喜欢可以直接去掉即可。
+		*  */
 
 		super(parent);
+		//把路径中的特殊符号替换，且将配置文件名放入数组中。
 		setConfigLocations(configLocations);
 		if (refresh) {
+			//创建的核心地方
 			refresh();
 		}
 	}

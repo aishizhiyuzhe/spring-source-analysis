@@ -21,6 +21,7 @@ package org.springframework.context;
  *
  * <p>Serves as a super-interface for {@link ApplicationContext}.
  *
+ * 和事件有关的类
  * @author Juergen Hoeller
  * @author Stephane Nicoll
  * @since 1.1.1

@@ -170,6 +170,8 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	static {
 		// Eagerly load the ContextClosedEvent class to avoid weird classloader issues
 		// on application shutdown in WebLogic 8.1. (Reported by Dustin Woods.)
+		// 当weblogiceager关闭应用程序时，加载ContextClosedEvent类以避免奇怪的类加载器问题
+		// todo 为什么需要这个
 		ContextClosedEvent.class.getName();
 	}
 
@@ -210,7 +212,9 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	@Nullable
 	private Thread shutdownHook;
 
-	/** ResourcePatternResolver used by this context. */
+	/** ResourcePatternResolver used by this context.
+	 * 资源加载器
+	 * */
 	private ResourcePatternResolver resourcePatternResolver;
 
 	/** LifecycleProcessor for managing the lifecycle of beans within this context. */
@@ -244,6 +248,8 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * Create a new AbstractApplicationContext with no parent.
 	 */
 	public AbstractApplicationContext() {
+
+		//获得一个资源加载器
 		this.resourcePatternResolver = getResourcePatternResolver();
 	}
 
@@ -253,6 +259,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 */
 	public AbstractApplicationContext(@Nullable ApplicationContext parent) {
 		this();
+		// todo 存疑
 		setParent(parent);
 	}
 
@@ -332,6 +339,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 */
 	@Override
 	public ConfigurableEnvironment getEnvironment() {
+		//获取默认的环境怕配置信息
 		if (this.environment == null) {
 			this.environment = createEnvironment();
 		}
@@ -484,6 +492,9 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * @see org.springframework.core.io.support.PathMatchingResourcePatternResolver
 	 */
 	protected ResourcePatternResolver getResourcePatternResolver() {
+
+		//该类本身实现了资源加载器，所以可以当做资源加载器引入
+		//之所以有这个方法是因为虽然这个类实现了ResourceLoader，子类可以对其重载使用不同的加载器
 		return new PathMatchingResourcePatternResolver(this);
 	}
 
@@ -543,13 +554,26 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 	@Override
 	public void refresh() throws BeansException, IllegalStateException {
+		//对应监听器进行加锁，确定并发情况只能加载一次
 		synchronized (this.startupShutdownMonitor) {
+			//能够获取上下的的数据 todo 不太明白
 			StartupStep contextRefresh = this.applicationStartup.start("spring.context.refresh");
 
 			// Prepare this context for refreshing.
+			/*刷新上下文
+			* 1.更新当前时间
+			* 2.closed设置为false
+			* 3.active设置true
+			* todo 不太理解closed和active的用意
+			* */
 			prepareRefresh();
 
 			// Tell the subclass to refresh the internal bean factory.
+			//告诉子类刷新内部bean工厂，当beanFactory不为空是，销毁并重新创建
+			/*	1.先判断是否存在，BeanFactory，如果存在则销毁
+			 *  2.判断父容器是否有beanFactory且是实现ConfigurableApplicationContext
+			 *
+			 */
 			ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();
 
 			// Prepare the bean factory for use in this context.
