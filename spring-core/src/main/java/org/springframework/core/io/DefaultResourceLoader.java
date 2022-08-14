@@ -164,12 +164,12 @@ public class DefaultResourceLoader implements ResourceLoader {
 		}
 		else {
 			try {
-				// Try to parse the location as a URL...
+				// Try to parse the location as a URL...尝试将位置解析为URL
 				URL url = new URL(location);
 				return (ResourceUtils.isFileURL(url) ? new FileUrlResource(url) : new UrlResource(url));
 			}
 			catch (MalformedURLException ex) {
-				// No URL -> resolve as resource path.
+				// No URL -> resolve as resource path.没有URL ->解析为资源路径
 				return getResourceByPath(location);
 			}
 		}

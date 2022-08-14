@@ -16,6 +16,7 @@
 
 package org.springframework.beans.factory.groovy
 
+import com.sun.org.apache.xpath.internal.operations.Bool
 import groovy.xml.StreamingMarkupBuilder
 import org.springframework.beans.factory.config.BeanDefinitionHolder
 import org.springframework.beans.factory.xml.BeanDefinitionParserDelegate
@@ -40,7 +41,7 @@ class GroovyDynamicElementReader extends GroovyObjectSupport {
 
 	private final GroovyBeanDefinitionWrapper beanDefinition
 
-	protected final boolean decorating;
+	protected final Boolean decorating;
 
 	private boolean callAfterInvocation = true
 

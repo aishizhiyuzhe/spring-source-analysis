@@ -554,7 +554,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 	@Override
 	public void refresh() throws BeansException, IllegalStateException {
-		//对应监听器进行加锁，确定并发情况只能加载一次
+		//对应监听器进行加锁，确定并发情况只能加载一次，是为了避免创建容器和销毁容器时发生冲突
 		synchronized (this.startupShutdownMonitor) {
 			//能够获取上下的的数据 todo 不太明白
 			StartupStep contextRefresh = this.applicationStartup.start("spring.context.refresh");
@@ -640,7 +640,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * active flag as well as performing any initialization of property sources.
 	 */
 	protected void prepareRefresh() {
-		// Switch to active.
+		// Switch to active.切换到活跃。
 		this.startupDate = System.currentTimeMillis();
 		this.closed.set(false);
 		this.active.set(true);
@@ -654,11 +654,11 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			}
 		}
 
-		// Initialize any placeholder property sources in the context environment.
+		// Initialize any placeholder property sources in the context environment. 初始化上下文环境中的任何占位符属性源。
 		initPropertySources();
 
-		// Validate that all properties marked as required are resolvable:
-		// see ConfigurablePropertyResolver#setRequiredProperties
+		// Validate that all properties marked as required are resolvable: 验证标记为所需的所有属性都是可解析的
+		// see ConfigurablePropertyResolver#setRequiredProperties 看ConfigurablePropertyResolver#setRequiredProperties
 		getEnvironment().validateRequiredProperties();
 
 		// Store pre-refresh ApplicationListeners...
@@ -682,7 +682,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * @see org.springframework.web.context.support.WebApplicationContextUtils#initServletPropertySources
 	 */
 	protected void initPropertySources() {
-		// For subclasses: do nothing by default.
+		// For subclasses: do nothing by default. 对于子类:默认情况下不做任何操作。 可以通过重写来对其私有化改造
 	}
 
 	/**

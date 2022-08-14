@@ -80,19 +80,19 @@ public abstract class AbstractXmlApplicationContext extends AbstractRefreshableC
 	@Override
 	protected void loadBeanDefinitions(DefaultListableBeanFactory beanFactory) throws BeansException, IOException {
 		// Create a new XmlBeanDefinitionReader for the given BeanFactory.
-		//创建时根据传入对象来判断需要创建哪些对象
-		//BeanDefinitionReader bean读取对象
+		//创建时根据传入对象所继承或实现哪些来，来判断需要创建哪些对象
+		//BeanDefinitionReader bean读取对象 beanFactory继承了BeanDefinitionRegistry可以作为一个注册器使用
 		XmlBeanDefinitionReader beanDefinitionReader = new XmlBeanDefinitionReader(beanFactory);
 
-		// Configure the bean definition reader with this context's
-		// resource loading environment.
+		// Configure the bean definition reader with this context's 使用此上下文配置bean定义读取器
+		// resource loading environment.加载环境资源
 		beanDefinitionReader.setEnvironment(this.getEnvironment());
 		beanDefinitionReader.setResourceLoader(this);
 		// todo SAX xml解析器
 		beanDefinitionReader.setEntityResolver(new ResourceEntityResolver(this));
 
-		// Allow a subclass to provide custom initialization of the reader,
-		// then proceed with actually loading the bean definitions.
+		// Allow a subclass to provide custom initialization of the reader,允许子类提供读取器的自定义初始化，
+		// then proceed with actually loading the bean definitions.然后继续实际加载bean定义
 		//启动xml校验器
 		initBeanDefinitionReader(beanDefinitionReader);
 		//真正加载的地方
@@ -115,6 +115,7 @@ public abstract class AbstractXmlApplicationContext extends AbstractRefreshableC
 	 * Load the bean definitions with the given XmlBeanDefinitionReader.
 	 * <p>The lifecycle of the bean factory is handled by the {@link #refreshBeanFactory}
 	 * method; hence this method is just supposed to load and/or register bean definitions.
+	 * 判断resource资源或者配置是否存在，存在即加载
 	 * @param reader the XmlBeanDefinitionReader to use
 	 * @throws BeansException in case of bean registration errors
 	 * @throws IOException if the required XML document isn't found

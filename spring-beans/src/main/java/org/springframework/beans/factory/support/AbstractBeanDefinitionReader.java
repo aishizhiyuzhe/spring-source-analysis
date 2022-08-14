@@ -85,7 +85,7 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 		Assert.notNull(registry, "BeanDefinitionRegistry must not be null");
 		this.registry = registry;
 
-		// Determine ResourceLoader to use.
+		// Determine ResourceLoader to use.确定要使用的ResourceLoader。
 		if (this.registry instanceof ResourceLoader) {
 			this.resourceLoader = (ResourceLoader) this.registry;
 		}
@@ -93,7 +93,7 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 			this.resourceLoader = new PathMatchingResourcePatternResolver();
 		}
 
-		// Inherit Environment if possible
+		// Inherit Environment if possible 尽可能继承环境？
 		if (this.registry instanceof EnvironmentCapable) {
 			this.environment = ((EnvironmentCapable) this.registry).getEnvironment();
 		}
@@ -219,6 +219,7 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 	 * @see #loadBeanDefinitions(org.springframework.core.io.Resource[])
 	 */
 	public int loadBeanDefinitions(String location, @Nullable Set<Resource> actualResources) throws BeanDefinitionStoreException {
+		//获取Ioc初始时的资源加载器 this
 		ResourceLoader resourceLoader = getResourceLoader();
 		if (resourceLoader == null) {
 			throw new BeanDefinitionStoreException(
@@ -226,10 +227,12 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 		}
 
 		if (resourceLoader instanceof ResourcePatternResolver) {
-			// Resource pattern matching available.
+			// Resource pattern matching available.可用的资源模式匹配
 			try {
-				//将bean配置信息解析成SpringIoc容器封装的资源
-				Resource[] resources = ((ResourcePatternResolver) resourceLoader).getResources(location);
+				//将bean配置信息解析成SpringIoc容器封装的资源，进行选择，采用那种类来对配置信息进行加载
+				//加载多个配置文件信息
+				Resource[] resources = ((ResourcePatternResolver) resourceLoader).getResources(location);、
+				//返回beanDefinition的数量
 				int count = loadBeanDefinitions(resources);
 				if (actualResources != null) {
 					Collections.addAll(actualResources, resources);
@@ -246,6 +249,8 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 		}
 		else {
 			// Can only load single resources by absolute URL.
+			//将bean配置信息解析成SpringIoc容器封装的资源
+			//加载单个配置文件信息
 			Resource resource = resourceLoader.getResource(location);
 			int count = loadBeanDefinitions(resource);
 			if (actualResources != null) {

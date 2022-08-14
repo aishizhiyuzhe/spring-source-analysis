@@ -71,9 +71,10 @@ public abstract class CoroutinesUtils {
 	 */
 	public static Publisher<?> invokeSuspendingFunction(Method method, Object target, Object... args) {
 		KFunction<?> function = Objects.requireNonNull(ReflectJvmMapping.getKotlinFunction(method));
-		if (method.isAccessible() && !KCallablesJvm.isAccessible(function)) {
-			KCallablesJvm.setAccessible(function, true);
-		}
+		//会导致编译不通过
+//		if (method.isAccessible() && !KCallablesJvm.isAccessible(function)) {
+//			KCallablesJvm.setAccessible(function, true);
+//		}
 		KClassifier classifier = function.getReturnType().getClassifier();
 		Mono<Object> mono = MonoKt.mono(Dispatchers.getUnconfined(), (scope, continuation) ->
 					KCallables.callSuspend(function, getSuspendedFunctionArgs(target, args), continuation))
