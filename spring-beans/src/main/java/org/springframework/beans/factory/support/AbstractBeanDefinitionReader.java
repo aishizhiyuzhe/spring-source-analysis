@@ -231,7 +231,7 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 			try {
 				//将bean配置信息解析成SpringIoc容器封装的资源，进行选择，采用那种类来对配置信息进行加载
 				//加载多个配置文件信息
-				Resource[] resources = ((ResourcePatternResolver) resourceLoader).getResources(location);、
+				Resource[] resources = ((ResourcePatternResolver) resourceLoader).getResources(location);
 				//返回beanDefinition的数量
 				int count = loadBeanDefinitions(resources);
 				if (actualResources != null) {

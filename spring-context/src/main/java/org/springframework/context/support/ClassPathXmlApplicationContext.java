@@ -84,7 +84,7 @@ public class ClassPathXmlApplicationContext extends AbstractXmlApplicationContex
 	 * @throws BeansException if context creation failed
 	 */
 	public ClassPathXmlApplicationContext(String configLocation) throws BeansException {
-		//默认刷星上下文。
+		//默认刷新上下文。
 		this(new String[] {configLocation}, true, null);
 	}
 
@@ -147,7 +147,7 @@ public class ClassPathXmlApplicationContext extends AbstractXmlApplicationContex
 		*  */
 
 		super(parent);
-		//把路径中的特殊符号替换，且将配置文件名放入数组中。
+		//加载配置相关信息
 		setConfigLocations(configLocations);
 		if (refresh) {
 			//创建的核心地方

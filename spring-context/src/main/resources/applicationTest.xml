@@ -5,6 +5,6 @@
     https://www.springframework.org/schema/beans/spring-beans.xsd
     ">
 	<bean id="test" class="org.springframework.testBean.Test">
-
+		<property name="age" value="22"/>
 	</bean>
 </beans>

@@ -9,5 +9,6 @@ public class ApplicationTest {
 	@Test
 	public void ClassPathXmlApplicationTest(){
 		ApplicationContext applicationContext=new ClassPathXmlApplicationContext("applicationTest.xml");
+		applicationContext.getBean("test");
 	}
 }
