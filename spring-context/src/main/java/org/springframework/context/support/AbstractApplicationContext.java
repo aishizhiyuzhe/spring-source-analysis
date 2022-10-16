@@ -944,7 +944,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		// Register a default embedded value resolver if no BeanFactoryPostProcessor
 		// (such as a PropertySourcesPlaceholderConfigurer bean) registered any before:
 		// at this point, primarily for resolution in annotation attribute values.
-		//如果BeanFactoryPostProcessor(例如PropertySourcesPlaceholderConfigurer bean)之前没有注册过，那么注册一个默认的嵌入式值解析器:此时，主要用于在注释属性值中解析。
+		// 如果BeanFactoryPostProcessor(例如PropertySourcesPlaceholderConfigurer bean)之前没有注册过，那么注册一个默认的嵌入式值解析器:此时，主要用于在注释属性值中解析。
 		if (!beanFactory.hasEmbeddedValueResolver()) {
 			beanFactory.addEmbeddedValueResolver(strVal -> getEnvironment().resolvePlaceholders(strVal));
 		}
@@ -966,7 +966,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		beanFactory.freezeConfiguration();
 
 		// Instantiate all remaining (non-lazy-init) singletons.
-		// Instantiate all remaining (non-lazy-init) singletons.
+		// 实例化所有剩余的(非lazy-init)单例。
 		beanFactory.preInstantiateSingletons();
 	}
 

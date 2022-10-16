@@ -100,7 +100,9 @@ public abstract class AbstractPropertyAccessor extends TypeConverterSupport impl
 				// setPropertyValue may throw any BeansException, which won't be caught
 				// here, if there is a critical failure such as no matching field.
 				// We can attempt to deal only with less serious exceptions.
+				// setPropertyValue可能抛出任何BeansException，如果出现关键失败，例如没有匹配字段，则在这里不会捕获该异常。我们可以尝试只处理不太严重的例外情况。
 				try {
+					// 赋值操作
 					setPropertyValue(pv);
 				}
 				catch (NotWritablePropertyException ex) {
