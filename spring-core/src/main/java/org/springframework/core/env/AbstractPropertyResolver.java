@@ -207,6 +207,7 @@ public abstract class AbstractPropertyResolver implements ConfigurablePropertyRe
 		if (this.strictHelper == null) {
 			this.strictHelper = createPlaceholderHelper(false);
 		}
+		//将配置文件中的${}符号替换
 		return doResolvePlaceholders(text, this.strictHelper);
 	}
 

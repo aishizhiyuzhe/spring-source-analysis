@@ -137,6 +137,7 @@ public abstract class AbstractEnvironment implements ConfigurableEnvironment {
 	protected AbstractEnvironment(MutablePropertySources propertySources) {
 		this.propertySources = propertySources;
 		this.propertyResolver = createPropertyResolver(propertySources);
+		//将环境中的参数加入到Spring中
 		customizePropertySources(propertySources);
 	}
 

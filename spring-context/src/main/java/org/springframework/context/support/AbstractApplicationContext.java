@@ -259,7 +259,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 */
 	public AbstractApplicationContext(@Nullable ApplicationContext parent) {
 		this();
-		// todo 存疑
+		// 将父容器赋值进来
 		setParent(parent);
 	}
 
@@ -564,7 +564,8 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			* 1.更新当前时间
 			* 2.closed设置为false
 			* 3.active设置true
-			* todo 不太理解closed和active的用意
+			* closed和active用于标记容器的当前状态
+			* 4.校验环境变量
 			* */
 			prepareRefresh();
 
@@ -665,11 +666,14 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			}
 		}
 
-		// Initialize any placeholder property sources in the context environment. 初始化上下文环境中的任何占位符属性源。
+		// Initialize any placeholder property sources in the context environment.
+		// 初始化上下文环境中的任何占位符属性源。用于扩展，自定义启动类时重写这个方法就可以了
 		initPropertySources();
 
-		// Validate that all properties marked as required are resolvable: 验证标记为所需的所有属性都是可解析的
-		// see ConfigurablePropertyResolver#setRequiredProperties 看ConfigurablePropertyResolver#setRequiredProperties
+		// Validate that all properties marked as required are resolvable:
+		// see ConfigurablePropertyResolver#setRequiredProperties
+		// 验证标记为所需的所有属性都是可解析的：看ConfigurablePropertyResolver#setRequiredProperties
+		// 校验RequiredProperties中的参数在环境配置是否存在，不存在就会报错
 		getEnvironment().validateRequiredProperties();
 
 		// Store pre-refresh ApplicationListeners...

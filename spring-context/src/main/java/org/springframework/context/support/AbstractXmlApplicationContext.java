@@ -45,6 +45,7 @@ import org.springframework.lang.Nullable;
  */
 public abstract class AbstractXmlApplicationContext extends AbstractRefreshableConfigApplicationContext {
 
+	//是否开启校验
 	private boolean validating = true;
 
 
@@ -88,7 +89,7 @@ public abstract class AbstractXmlApplicationContext extends AbstractRefreshableC
 		// resource loading environment.加载环境资源
 		beanDefinitionReader.setEnvironment(this.getEnvironment());
 		beanDefinitionReader.setResourceLoader(this);
-		// todo SAX xml解析器
+		// 创建解析器，获取META-INF/spring.schemas文件用于没网时直接获取本地的规范
 		beanDefinitionReader.setEntityResolver(new ResourceEntityResolver(this));
 
 		// Allow a subclass to provide custom initialization of the reader,允许子类提供读取器的自定义初始化，

@@ -128,6 +128,7 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 		try {
 			DefaultListableBeanFactory beanFactory = createBeanFactory();
 			beanFactory.setSerializationId(getId());
+			// 默认两个参数都是为空的,可以通过重写该方法将设置值
 			customizeBeanFactory(beanFactory);
 			//todo 委派模式 AbstractXmlApplicationContext中对其实现
 			loadBeanDefinitions(beanFactory);

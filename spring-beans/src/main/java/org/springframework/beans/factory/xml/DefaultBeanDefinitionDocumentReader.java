@@ -119,12 +119,16 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 	 */
 	@SuppressWarnings("deprecation")  // for Environment.acceptsProfiles(String...)
 	protected void doRegisterBeanDefinitions(Element root) {
-		// Any nested <beans> elements will cause recursion in this method. In 任何嵌套的<beans>元素都将导致此方法中的递归
-		// order to propagate and preserve <beans> default-* attributes correctly, 为了正确地传播和保存<beans>默认-*属性
-		// keep track of the current (parent) delegate, which may be null. Create  跟踪当前(父)委托，该委托可能为空
-		// the new (child) delegate with a reference to the parent for fallback purposes, 创建带有对父委托的引用的新(子)委托，以实现回退
-		// then ultimately reset this.delegate back to its original (parent) reference. 然后最终将this.delegate重置为它最初的(父)引用
-		// this behavior emulates a stack of delegates without actually necessitating one.此行为模拟了一堆委托，但实际上并不需要委托。
+		// Any nested <beans> elements will cause recursion in this method. In
+		// order to propagate and preserve <beans> default-* attributes correctly,
+		// keep track of the current (parent) delegate, which may be null. Create
+		// the new (child) delegate with a reference to the parent for fallback purposes,
+		// then ultimately reset this.delegate back to its original (parent) reference.
+		// this behavior emulates a stack of delegates without actually necessitating one.
+		// 任何嵌套的<beans>元素都将导致此方法中的递归。
+		// 为了正确地传播和保存<beans>默认-*属性跟踪当前(父)委托，该委托可能为空创建带有对父委托的引用的新(子)委托，
+		// 以实现回退， 然后最终将this.delegate重置为它最初的(父)引用此行为模拟了一堆委托，但实际上并不需要委托。
+
 		BeanDefinitionParserDelegate parent = this.delegate;
 		this.delegate = createDelegate(getReaderContext(), root, parent);
 
@@ -134,7 +138,8 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 				String[] specifiedProfiles = StringUtils.tokenizeToStringArray(
 						profileSpec, BeanDefinitionParserDelegate.MULTI_VALUE_ATTRIBUTE_DELIMITERS);
 				// We cannot use Profiles.of(...) since profile expressions are not supported
-				// in XML config. See SPR-12458 for details.我们不能使用profile .of(…)，因为XML配置中不支持profile表达式。详情请参见sr -12458。
+				// in XML config. See SPR-12458 for details.、
+				// 我们不能使用profile .of(…)，因为XML配置中不支持profile表达式。详情请参见sr -12458。
 				if (!getReaderContext().getEnvironment().acceptsProfiles(specifiedProfiles)) {
 					if (logger.isDebugEnabled()) {
 						logger.debug("Skipped XML bean definition file due to specified profiles [" + profileSpec +
@@ -144,8 +149,9 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 				}
 			}
 		}
-
+		// 又是一个可以扩展的地方
 		preProcessXml(root);
+		//解析每一个标签内部的标签
 		parseBeanDefinitions(root, this.delegate);
 		postProcessXml(root);
 
@@ -173,6 +179,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 				if (node instanceof Element) {
 					Element ele = (Element) node;
 					if (delegate.isDefaultNamespace(ele)) {
+						//判断当前标签是否是默认标签。只加载指定标签类型的标签
 						parseDefaultElement(ele, delegate);
 					}
 					else {

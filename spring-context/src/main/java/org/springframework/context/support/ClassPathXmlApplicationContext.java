@@ -140,12 +140,10 @@ public class ClassPathXmlApplicationContext extends AbstractXmlApplicationContex
 	public ClassPathXmlApplicationContext(
 			String[] configLocations, boolean refresh, @Nullable ApplicationContext parent)
 			throws BeansException {
-		/*
-		* 调用父类的构造器，个人理解有几点好处，
-		* 1.由父类去设计大体的创建方法，如果有什么变通的可以通过重写父类的方法来进行自定义的调整。
-		* 2.如果不喜欢可以直接去掉即可。
-		*  */
 
+		// 调用父类的构造器
+		// 1.将一些成员变量初始化
+		// 2.加载资源解析器
 		super(parent);
 		//加载配置相关信息
 		setConfigLocations(configLocations);
